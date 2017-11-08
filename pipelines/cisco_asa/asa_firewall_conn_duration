@@ -1,0 +1,15 @@
+rule "Extract ASA connection duration"
+
+// Stage 0
+
+when
+  has_field("asa_eventcode")
+then
+  let a = regex("[Dd]uration:?\\s*(?:(\\d+)[dD])?\\s*((\\d+)[Hh]?:(\\d+)[Mm]?:(\\d+)[Ss]?)", to_string($message.message));
+
+  set_field("duration_day", a["0"]);
+  set_field("duration", a["1"]);
+  set_field("duration_hour", a["2"]);
+  set_field("duration_minute", a["3"]);
+  set_field("duration_second", a["4"]);
+end
