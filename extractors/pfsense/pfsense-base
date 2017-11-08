@@ -1,0 +1,50 @@
+{
+  "extractors": [
+    {
+      "title": "pfSense Base Extractor",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "filterlog: %{NUMBER:rule;int},(%{NUMBER:subrule;int})?,(%{DATA:anchor})?,%{NUMBER:tracker;int},%{DATA:interface;string},%{DATA:reason;string},%{DATA:action;string},%{DATA:direction;string},%{NUMBER:ip_version;int}",
+        "named_captures_only": true
+      },
+      "condition_type": "string",
+      "condition_value": "filterlog:"
+    },
+    {
+      "title": "pfSense IPv4 Data Extractor",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "filterlog: %{NUMBER:UNWANTED},(%{NUMBER:UNWANTED})?,(%{DATA:UNWANTED})?,%{NUMBER:UNWANTED},%{DATA:UNWANTED},%{DATA:UNWANTED},%{DATA:UNWANTED},%{DATA:UNWANTED},4,%{DATA:tos},%{DATA:ecn},%{NUMBER:ttl},%{NUMBER:id},%{NUMBER:offset},%{DATA:flags},%{NUMBER:protocol_id},%{DATA:protocol_text},%{NUMBER:length},%{IP:src_ip},%{IP:dst_ip},%{NUMBER:src_port},%{NUMBER:dst_port},%{NUMBER:data_length}(,%{DATA:tcp_flags},)?(%{NUMBER:sequence_number},)?(%{DATA:ack_number},)?(%{NUMBER:tcp_window},)?(%{DATA:urg},)?(%{GREEDYDATA:tcp_options})?",
+        "named_captures_only": true
+      },
+      "condition_type": "string",
+      "condition_value": "filterlog:"
+    },
+    {
+      "title": "pfSense IPv6 Data Extractor",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "filterlog: %{NUMBER:UNWANTED},(%{NUMBER:UNWANTED})?,(%{DATA:UNWANTED})?,%{NUMBER:UNWANTED},%{DATA:UNWANTED},%{DATA:UNWANTED},%{DATA:UNWANTED},%{DATA:UNWANTED},6,%{DATA:class},%{DATA:flow_label},%{NUMBER:hop_limit},%{DATA:protocol_text},%{NUMBER:protocol_id},%{NUMBER:length},%{IPV6:src_ip},%{IPV6:dst_ip},%{NUMBER:src_port},%{NUMBER:dst_port},%{NUMBER:data_length}",
+        "named_captures_only": true
+      },
+      "condition_type": "string",
+      "condition_value": "filterlog:"
+    }
+  ],
+  "version": "2.3.2"
+}
