@@ -1,0 +1,47 @@
+{
+  "extractors": [
+    {
+      "title": "Linux Base ",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{MONTH}  %{MONTHDAY} %{TIME} %{HOSTNAME} %{WORD:daemon}(\\/%{WORD:service})?\\[%{BASE10NUM:pid}\\]: (%{WORD:messageid}: )?%{GREEDYDATA:detail}"
+      },
+      "condition_type": "none",
+      "condition_value": ""
+    },
+    {
+      "title": "IMAP Login",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{MONTH}  %{MONTHDAY} %{TIME} %{HOSTNAME} %{WORD:daemon}: imap-login: %{DATA:imap_op}: user=<%{WORD:user}>, method=%{WORD:method}, rip=%{IPV4:remote_ip}, lip=%{IPV4:local_ip}, mpid=%{INT:mpid}, %{DATA:encryption}, session=<%{DATA:session}>"
+      },
+      "condition_type": "string",
+      "condition_value": "dovecot: imap-login:"
+    },
+    {
+      "title": "IMAP Session Detail",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{MONTH}  %{MONTHDAY} %{TIME} %{HOSTNAME} %{WORD:daemon}: imap\\(%{WORD:user}\\): %{GREEDYDATA:imap_session_detail} in=%{BASE10NUM:bytes_rcvd} out=%{BASE10NUM:bytes_sent}"
+      },
+      "condition_type": "string",
+      "condition_value": "dovecot: imap("
+    }
+  ],
+  "version": "2.3.2"
+}
