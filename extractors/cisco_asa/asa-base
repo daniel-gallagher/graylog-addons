@@ -1,0 +1,61 @@
+{
+  "extractors": [
+    {
+      "title": "ASA Timestamp",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{DATESTAMP_SYSLOG:UNWANTED}: "
+      },
+      "condition_type": "string",
+      "condition_value": "%ASA-"
+    },
+    {
+      "title": "ASA Eventcode",
+      "extractor_type": "regex",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "asa_eventcode",
+      "extractor_config": {
+        "regex_value": "(ASA-\\d-\\d{6})"
+      },
+      "condition_type": "none",
+      "condition_value": ""
+    },
+    {
+      "title": "Transport Protocol",
+      "extractor_type": "regex",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "transport_protocol",
+      "extractor_config": {
+        "regex_value": "(TCP|tcp|UDP|udp|ICMP|icmp)"
+      },
+      "condition_type": "none",
+      "condition_value": ""
+    },
+    {
+      "title": "ASA Eventcode Detail",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "asa_eventcode",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "ASA-%{INT:log_level}-%{INT:message_id}"
+      },
+      "condition_type": "none",
+      "condition_value": ""
+    }
+  ],
+  "version": "2.3.2"
+}
